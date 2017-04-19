@@ -1,15 +1,13 @@
 package me.noy.bot.command.impl;
 
 import lombok.SneakyThrows;
+import me.noy.bot.Bot;
 import me.noy.bot.command.Command;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * Created by Armani on 19/04/2017.
- */
 // this is a joke lmfao
 public final class DDosCommand implements Command {
 
@@ -19,9 +17,10 @@ public final class DDosCommand implements Command {
 
     @Override
     public void action(String[] s, MessageReceivedEvent event) {
+
         if (!s[0].contains(".")) {
             try {
-                sendMessage(event,"Could not hit! Not a real target!");
+                Bot.sendMessage(event,"Could not hit! Not a real target!");
                 return;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -29,10 +28,10 @@ public final class DDosCommand implements Command {
             return;
         }
         if (s.length == 0) {
-            this.sendMessage(event, "!ddos <ip>");
+            Bot.sendMessage(event, "!ddos <ip>");
             return;
         }
-        sendMessage(event, "Hitting.");
+        Bot.sendMessage(event, "Hitting.");
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
             @Override
@@ -44,7 +43,7 @@ public final class DDosCommand implements Command {
                 }
                 if (args1.equals(s[0])) {
                     try {
-                        sendMessage(event, "Hitting " + args1 + " with (venet0:0 111.111.32.3): NO FLAGS are set, 40 headers + 0 data bytes");
+                        Bot.sendMessage(event, "Hitting " + args1 + " with (venet0:0 111.111.32.3): NO FLAGS are set, 40 headers + 0 data bytes");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -59,7 +58,7 @@ public final class DDosCommand implements Command {
                         task.cancel();
                         timer.cancel();
                         System.out.println("cancelled");
-                        sendMessage(event, "Hit " + s[0] + " with " + " 8987321BYTES of Data.");
+                        Bot.sendMessage(event, "Hit " + s[0] + " with " + " 8987321BYTES of Data.");
                     }
                 }, 20000
         );
@@ -67,11 +66,4 @@ public final class DDosCommand implements Command {
 
     @Override
     public void execute(boolean success, MessageReceivedEvent event) {}
-
-    @SafeVarargs
-    private final <T> void sendMessage(MessageReceivedEvent event, T... t) {
-        for (T args : t) {
-            event.getTextChannel().sendMessage(args.toString()).queue();
-        }
-    }
 }

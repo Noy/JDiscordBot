@@ -8,9 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by Armani on 19/04/2017.
- */
 public final class CommandParser {
 
     public CommandContainer parse(String raw, MessageReceivedEvent event) {

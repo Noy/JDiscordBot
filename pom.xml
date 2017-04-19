@@ -30,6 +30,13 @@
             <artifactId>lombok</artifactId>
             <version>1.12.6</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.8.3</version>
+        </dependency>
+
         <dependency>
             <groupId>de.btobastian.sdcf4j</groupId>
             <artifactId>sdcf4j-core</artifactId>

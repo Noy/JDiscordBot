@@ -6,9 +6,6 @@ import net.dv8tion.jda.core.events.ReadyEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
-/**
- * Created by Armani on 19/04/2017.
- */
 public class BotListener extends ListenerAdapter {
 
     @Override
