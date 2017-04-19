@@ -6,10 +6,7 @@ import lombok.SneakyThrows;
 import lombok.extern.java.Log;
 import me.noy.bot.command.CommandExecutor;
 import me.noy.bot.command.CommandParser;
-import me.noy.bot.command.impl.GoogleImageSearch;
-import me.noy.bot.command.impl.DDosCommand;
-import me.noy.bot.command.impl.GoogleSearch;
-import me.noy.bot.command.impl.RandomResponses;
+import me.noy.bot.command.impl.*;
 import me.noy.bot.listeners.BotListener;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -31,6 +28,9 @@ public final class Bot {
         CommandExecutor.commands.put("wouldyou", new RandomResponses());
         CommandExecutor.commands.put("googleimg", new GoogleImageSearch());
         CommandExecutor.commands.put("google", new GoogleSearch());
+        CommandExecutor.commands.put("mute", new Mute());
+        CommandExecutor.commands.put("help", new Help());
+        CommandExecutor.commands.put("setnick", new SetNick());
     }
 
     public static void main(String[] args) {

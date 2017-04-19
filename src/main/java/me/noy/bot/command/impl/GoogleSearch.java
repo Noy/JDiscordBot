@@ -20,11 +20,13 @@ public final class GoogleSearch implements Command {
     @Override
     @SneakyThrows
     public void action(String[] args, MessageReceivedEvent event) {
+        Bot.sendMessage(event, "Looking...");
         StringBuilder getAllArgs = new StringBuilder();
         for (String s : args) {
             getAllArgs.append(s).append(" ");
         }
         getAllArgs.substring(0, getAllArgs.length() - 1);
+        Bot.sendMessage(event, "Request Received! Searching for: " + getAllArgs.toString());
         String google = "http://www.google.com/search?q=";
         String search = getAllArgs.toString();
         String charset = "UTF-8";

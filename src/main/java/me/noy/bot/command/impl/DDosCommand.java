@@ -17,7 +17,6 @@ public final class DDosCommand implements Command {
 
     @Override
     public void action(String[] s, MessageReceivedEvent event) {
-
         if (!s[0].contains(".")) {
             try {
                 Bot.sendMessage(event,"Could not hit! Not a real target!");

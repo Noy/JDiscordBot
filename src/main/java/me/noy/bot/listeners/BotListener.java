@@ -1,7 +1,7 @@
 package me.noy.bot.listeners;
 
 import me.noy.bot.Bot;
-import me.noy.bot.command.CommandExecutor;
+import me.noy.bot.command.CommandExecutor;;
 import net.dv8tion.jda.core.events.ReadyEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
