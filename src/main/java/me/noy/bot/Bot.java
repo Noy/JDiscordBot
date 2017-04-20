@@ -7,6 +7,7 @@ import lombok.extern.java.Log;
 import me.noy.bot.command.CommandExecutor;
 import me.noy.bot.command.CommandParser;
 import me.noy.bot.command.impl.*;
+import me.noy.bot.command.impl.discord.*;
 import me.noy.bot.listeners.BotListener;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -24,13 +25,7 @@ public final class Bot {
     private void enable() {
         instance = this;
         jda = new JDABuilder(AccountType.BOT).setToken(Hidden.TOKEN).addListener(new BotListener()).buildBlocking();
-        CommandExecutor.commands.put("ddos", new DDosCommand());
-        CommandExecutor.commands.put("wouldyou", new RandomResponses());
-        CommandExecutor.commands.put("googleimg", new GoogleImageSearch());
-        CommandExecutor.commands.put("google", new GoogleSearch());
-        CommandExecutor.commands.put("mute", new Mute());
-        CommandExecutor.commands.put("help", new Help());
-        CommandExecutor.commands.put("setnick", new SetNick());
+        registerAllCommands();
     }
 
     public static void main(String[] args) {
@@ -50,5 +45,19 @@ public final class Bot {
         for (T args : t) {
             event.getTextChannel().sendMessage(args.toString()).queue();
         }
+    }
+
+    private void registerAllCommands() {
+        CommandExecutor.commands.put("ddos", new DDosCommand());
+        CommandExecutor.commands.put("wouldyou", new RandomResponses());
+        CommandExecutor.commands.put("googleimg", new GoogleImageSearch());
+        CommandExecutor.commands.put("google", new GoogleSearch());
+        CommandExecutor.commands.put("kick", new Kick());
+        CommandExecutor.commands.put("mute", new Mute());
+        CommandExecutor.commands.put("help", new Help());
+        CommandExecutor.commands.put("setnick", new SetNick());
+        CommandExecutor.commands.put("announce", new Announcement());
+        CommandExecutor.commands.put("getinfo", new GetInfo());
+        CommandExecutor.commands.put("join", new JoinVoice());
     }
 }

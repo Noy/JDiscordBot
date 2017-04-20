@@ -1,4 +1,4 @@
-package me.noy.bot.command.impl;
+package me.noy.bot.command.impl.discord;
 
 import me.noy.bot.Bot;
 import me.noy.bot.command.Command;

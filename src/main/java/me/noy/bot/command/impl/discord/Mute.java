@@ -1,4 +1,4 @@
-package me.noy.bot.command.impl;
+package me.noy.bot.command.impl.discord;
 
 import me.noy.bot.Bot;
 import me.noy.bot.command.Command;
@@ -8,13 +8,14 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.exceptions.PermissionException;
 
 import java.util.List;
 
 /**
  * Created by Armani on 19/04/2017.
  */
-public class Kick implements Command {
+public class Mute implements Command {
     @Override
     public boolean called(String[] args, MessageReceivedEvent event) throws DiscordException {
         return true;
@@ -26,7 +27,7 @@ public class Kick implements Command {
         if (args.length == 0) return;
         Guild guild = event.getGuild();
         Member selfMember = guild.getSelfMember();
-        if (!selfMember.hasPermission(Permission.KICK_MEMBERS)) {
+        if (!selfMember.hasPermission(Permission.VOICE_MUTE_OTHERS)) {
             Bot.sendMessage(event,"Sorry! I don't have permission to mute members in this server!");
             return;
         }
@@ -37,8 +38,18 @@ public class Kick implements Command {
                         "in the hierachy than I am!");
                 continue;
             }
-            guild.getController().kick(member);
-            Bot.sendMessage(event, "Kicked " + member);
+            guild.getController().setMute(member, true).queue(
+                    success -> Bot.sendMessage(event,"Muted " + member.getEffectiveName() + "."), error -> {
+                        if (error instanceof PermissionException) {
+                            PermissionException pe = (PermissionException) error;
+                            Permission missingPermission = pe.getPermission();
+                            Bot.sendMessage(event, "PermissionError muting [" + member.getEffectiveName()
+                                    + "]: " + error.getMessage());
+                        } else {
+                            Bot.sendMessage(event, "Unknown error while muting [" + member.getEffectiveName()
+                                    + "]: " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage());
+                        }
+                    });
         }
     }
 
