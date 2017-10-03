@@ -19,23 +19,22 @@ public class JoinVoice implements Command {
         if (args.length == 0) return;
         VoiceChannel channel = event.getMessage().getGuild().getVoiceChannels().stream().filter(voiceChannel
                 -> voiceChannel.getName().equalsIgnoreCase(args[0])).findFirst().orElse(null);
+
+        System.out.println(channel);
         if (channel == null) {
             Bot.sendMessage(event, "No voice channel available to join with that name. Check the spelling!");
             return;
         }
         connectTo(channel);
         Bot.sendMessage(event, "Joining " + args[0]);
-
     }
 
-    public void connectTo(VoiceChannel channel) {
+    private void connectTo(VoiceChannel channel) {
         AudioManager manager = channel.getGuild().getAudioManager();
         manager.openAudioConnection(channel);
     }
 
 
     @Override
-    public void execute(boolean success, MessageReceivedEvent event) {
-
-    }
+    public void execute(boolean success, MessageReceivedEvent event) {}
 }

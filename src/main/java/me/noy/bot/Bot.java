@@ -1,6 +1,5 @@
 package me.noy.bot;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.java.Log;
@@ -12,25 +11,29 @@ import me.noy.bot.listeners.BotListener;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
+import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import sx.blah.discord.api.IDiscordClient;
 
 @Log
 public final class Bot {
 
-    @Getter(AccessLevel.PACKAGE) private static Bot instance;
+    @Getter private static Bot instance;
     private JDA jda;
     public static CommandParser parser = new CommandParser();
+    @Getter public IDiscordClient client;
 
     @SneakyThrows
     private void enable() {
         instance = this;
-        jda = new JDABuilder(AccountType.BOT).setToken(Hidden.TOKEN).addListener(new BotListener()).buildBlocking();
+        jda = new JDABuilder(AccountType.BOT).setToken(Hidden.TOKEN).setGame(Game.of("The Simpsons Hit and Run", "")).addListener(new BotListener()).buildBlocking();
         registerAllCommands();
     }
 
     public static void main(String[] args) {
         Bot bot = new Bot();
         bot.enable();
+        Bot.log("Following commands are registered: " + CommandExecutor.commands.keySet());
     }
 
     @SafeVarargs
@@ -48,6 +51,7 @@ public final class Bot {
     }
 
     private void registerAllCommands() {
+        CommandExecutor.commands.put("sendbitcoin", new SendBitcoin());
         CommandExecutor.commands.put("ddos", new DDosCommand());
         CommandExecutor.commands.put("wouldyou", new RandomResponses());
         CommandExecutor.commands.put("googleimg", new GoogleImageSearch());
@@ -59,5 +63,6 @@ public final class Bot {
         CommandExecutor.commands.put("announce", new Announcement());
         CommandExecutor.commands.put("getinfo", new GetInfo());
         CommandExecutor.commands.put("join", new JoinVoice());
+        CommandExecutor.commands.put("start", new StartAnnouncements()); // hidden from public repo by default
     }
 }

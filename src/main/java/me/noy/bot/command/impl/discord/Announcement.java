@@ -2,6 +2,7 @@ package me.noy.bot.command.impl.discord;
 
 import me.noy.bot.command.Command;
 import me.noy.bot.command.DiscordException;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -25,8 +26,12 @@ public final class Announcement implements Command {
         }
         getAllArgs.substring(0, getAllArgs.length() - 1);
         for (TextChannel textChannel : textChannels) {
-            if (!textChannel.canTalk()) continue;
-            textChannel.sendMessage(getAllArgs.toString()).queue();
+            if (textChannel.canTalk()) {
+                textChannel.sendMessage(getAllArgs.toString()).queue();
+            }
+        }
+        if (guild.getSelfMember().hasPermission(Permission.MESSAGE_MANAGE)) {
+            event.getMessage().deleteMessage().queue();
         }
     }
 

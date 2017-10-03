@@ -25,23 +25,23 @@ public class SetNick implements Command {
         Guild guild = event.getGuild();
         Member selfMember = guild.getSelfMember();
         if (!selfMember.hasPermission(Permission.NICKNAME_MANAGE)) {
-            Bot.sendMessage(event,"Sorry! I don't have permission to mute members in this server!");
+            Bot.sendMessage(event, "Sorry! I don't have permission to mute members in this server!");
             return;
         }
         for (User user : mentionedUsers) {
             Member member = guild.getMember(user);
             if (!selfMember.canInteract(member)) {
-                Bot.sendMessage(event,"Cannot do that to member: " + member.getEffectiveName() + ", they are higher " +
+                Bot.sendMessage(event, "Cannot do that to member: " + member.getEffectiveName() + ", they are higher " +
                         "in the hierachy than I am!");
                 continue;
             }
             StringBuilder getAllArgs = new StringBuilder();
-            for (String s : args) {
-                getAllArgs.append(s).append(" ");
+            for (int i = 1; i != args.length; i++) {
+                getAllArgs.append(args[i]).append(" ");
             }
             getAllArgs.subSequence(0, getAllArgs.length());
             guild.getController().setNickname(member, getAllArgs.toString()).queue(
-                    success -> Bot.sendMessage(event, "Set the nick of " + member.getEffectiveName() + "."), error -> {
+                    success -> Bot.sendMessage(event, "Set the nick of " + member.getEffectiveName() + " to " + getAllArgs), error -> {
                         if (error instanceof PermissionException) {
                             Bot.sendMessage(event, "PermissionError nicking [" + member.getEffectiveName()
                                     + "]: " + error.getMessage());
@@ -54,7 +54,5 @@ public class SetNick implements Command {
     }
 
     @Override
-    public void execute(boolean success, MessageReceivedEvent event) {
-
-    }
+    public void execute(boolean success, MessageReceivedEvent event) {}
 }

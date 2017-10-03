@@ -24,24 +24,22 @@ public final class GoogleImageSearch implements Command {
     @Override
     @SneakyThrows
     public void action(String[] args, MessageReceivedEvent event) {
-        Bot.sendMessage(event, "Looking...");
         StringBuilder getAllArgs = new StringBuilder();
         for (String s : args) {
             getAllArgs.append(s).append(" ");
         }
         getAllArgs.substring(0, getAllArgs.length() - 1);
+        Bot.sendMessage(event, event.getAuthor().getAsMention() + ", looking..");
         Bot.sendMessage(event, "Request Received! Searching for: " + getAllArgs.toString());
         String google = "http://www.google.com/search?tbm=isch&q=";
         String search = getAllArgs.toString();
         String charset = "UTF-8";
         String param = "&source=web&sa=X&ved=0ahUKEwiEr5rZrMLSAhXM8YMKHRVzCJcQ_AUICCgB&biw=1440&bih=799#imgrc=XWXPqrX1RFJiaM:";
         String userAgent = "Discord 1.0 (+http://example.com/bot)";
-        //System.out.println(Jsoup.connect(google + URLEncoder.encode(search, charset) + param).followRedirects(true).userAgent(userAgent).timeout(200000).get());
         Elements links = Jsoup.connect(google + URLEncoder.encode(search, charset) + param).followRedirects(true).userAgent(userAgent).timeout(200000).get().select("#ires td a img");
         for (Element link : links) {
             link = links.get((int) (Math.random() * links.size()));
             String url = link.absUrl("src");
-            //System.out.println(url);
             BufferedImage image = ImageIO.read(new URL(url).openStream());
             ImageIO.write(image, "PNG", new File("search.png"));
             Bot.sendMessage(event, url);

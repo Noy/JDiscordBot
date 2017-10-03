@@ -5,6 +5,7 @@ import me.noy.bot.Bot;
 import me.noy.bot.command.Command;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -16,18 +17,13 @@ public final class DDosCommand implements Command {
     public boolean called(String[] args, MessageReceivedEvent event) { return true; }
 
     @Override
-    public void action(String[] s, MessageReceivedEvent event) {
-        if (!s[0].contains(".")) {
-            try {
-                Bot.sendMessage(event,"Could not hit! Not a real target!");
-                return;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+    public void action(String[] args, MessageReceivedEvent event) {
+        if (args.length == 0) {
+            Bot.sendMessage(event, "!ddos <ip>");
             return;
         }
-        if (s.length == 0) {
-            Bot.sendMessage(event, "!ddos <ip>");
+        if (!args[0].contains(".")) {
+            Bot.sendMessage(event,"Could not hit! Not a real target!");
             return;
         }
         Bot.sendMessage(event, "Hitting.");
@@ -35,12 +31,12 @@ public final class DDosCommand implements Command {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                String args1 = s[0];
+                String args1 = args[0];
                 if (args1.equalsIgnoreCase("stop")) {
                     System.out.println("stopped");
                     return;
                 }
-                if (args1.equals(s[0])) {
+                if (args1.equals(args[0])) {
                     try {
                         Bot.sendMessage(event, "Hitting " + args1 + " with (venet0:0 111.111.32.3): NO FLAGS are set, 40 headers + 0 data bytes");
                     } catch (Exception e) {
@@ -56,8 +52,9 @@ public final class DDosCommand implements Command {
                     public void run() {
                         task.cancel();
                         timer.cancel();
-                        System.out.println("cancelled");
-                        Bot.sendMessage(event, "Hit " + s[0] + " with " + " 8987321BYTES of Data.");
+                        Random rand = new Random();
+                        int randomNum = rand.nextInt(29238932);
+                        Bot.sendMessage(event, "Hit " + args[0] + " with " + randomNum + " Bytes of Data.");
                     }
                 }, 20000
         );

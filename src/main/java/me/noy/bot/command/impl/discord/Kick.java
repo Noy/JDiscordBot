@@ -11,9 +11,6 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 import java.util.List;
 
-/**
- * Created by Armani on 19/04/2017.
- */
 public class Kick implements Command {
     @Override
     public boolean called(String[] args, MessageReceivedEvent event) throws DiscordException {
@@ -27,14 +24,14 @@ public class Kick implements Command {
         Guild guild = event.getGuild();
         Member selfMember = guild.getSelfMember();
         if (!selfMember.hasPermission(Permission.KICK_MEMBERS)) {
-            Bot.sendMessage(event,"Sorry! I don't have permission to mute members in this server!");
+            Bot.sendMessage(event,"Sorry! I don't have permission to kick members in this server!");
             return;
         }
         for (User user : mentionedUsers) {
             Member member = guild.getMember(user);
             if (!selfMember.canInteract(member)) {
                 Bot.sendMessage(event, "Cannot mute member: " + member.getEffectiveName() + ", they are higher " +
-                        "in the hierachy than I am!");
+                        "in the hierarchy than I am!");
                 continue;
             }
             guild.getController().kick(member);

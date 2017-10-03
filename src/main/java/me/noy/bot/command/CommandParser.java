@@ -32,5 +32,4 @@ public final class CommandParser {
         public final String[] args;
         public final MessageReceivedEvent event;
     }
-
 }

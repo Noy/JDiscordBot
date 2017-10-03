@@ -11,6 +11,9 @@ import org.jsoup.select.Elements;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public final class GoogleSearch implements Command {
 
@@ -20,12 +23,12 @@ public final class GoogleSearch implements Command {
     @Override
     @SneakyThrows
     public void action(String[] args, MessageReceivedEvent event) {
-        Bot.sendMessage(event, "Looking...");
         StringBuilder getAllArgs = new StringBuilder();
         for (String s : args) {
             getAllArgs.append(s).append(" ");
         }
         getAllArgs.substring(0, getAllArgs.length() - 1);
+        Bot.sendMessage(event, event.getAuthor().getAsMention() + ", looking..");
         Bot.sendMessage(event, "Request Received! Searching for: " + getAllArgs.toString());
         String google = "http://www.google.com/search?q=";
         String search = getAllArgs.toString();
@@ -33,6 +36,7 @@ public final class GoogleSearch implements Command {
         String param ="";
         String userAgent = "Discord 1.0 (+http://example.com/bot)";
         Elements links = Jsoup.connect(google + URLEncoder.encode(search, charset)+param).userAgent(userAgent).get().select(".g>.r>a");
+        //List<String> titles = links.stream().map(Element::text).collect(Collectors.toList());
         for (Element link : links) {
             link = links.get((int) (Math.random() * links.size()));
             String title = link.text();

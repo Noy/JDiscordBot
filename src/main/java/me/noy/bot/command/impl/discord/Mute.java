@@ -12,9 +12,6 @@ import net.dv8tion.jda.core.exceptions.PermissionException;
 
 import java.util.List;
 
-/**
- * Created by Armani on 19/04/2017.
- */
 public class Mute implements Command {
     @Override
     public boolean called(String[] args, MessageReceivedEvent event) throws DiscordException {
